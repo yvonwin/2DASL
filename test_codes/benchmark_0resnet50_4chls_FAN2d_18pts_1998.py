@@ -9,7 +9,7 @@ import torch.backends.cudnn as cudnn
 import time, os
 import numpy as np
 import matplotlib.pyplot as plt
-os.environ['CUDA_VISIBLE_DEVICES']='1'
+os.environ['CUDA_VISIBLE_DEVICES']='0'
 
 #from benchmark_aflw1998 import calc_nme as calc_nme_alfw1998
 #from benchmark_aflw1998 import ana as ana_alfw1998
@@ -191,7 +191,9 @@ def extract_param(checkpoint_fp, root='', filelists=None, arch='resnet50', num_c
                               transform=transforms.Compose([ToTensorGjz(), NormalizeGjz(mean=127.5, std=128)]))
     data_loader = data.DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
-    cudnn.benchmark = True
+    # cudnn.benchmark = True
+    # change for 663 bug
+    cudnn.benchmark = False
     model.eval()
 
     end = time.time()
